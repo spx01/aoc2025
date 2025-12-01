@@ -1,0 +1,59 @@
+name:                aoc2025
+version:             0.1.0.0
+github:              "spx01/aoc2025"
+license:             MIT
+author:              "spx01"
+maintainer:          "spx01@protonmail.com"
+copyright:           "2025 spx01"
+
+extra-source-files:  []
+
+description:         AoC 2025
+
+dependencies:
+- base >= 4.7 && < 5
+- bifunctors
+- filepath
+
+ghc-options:
+- -Wall
+- -Wcompat
+- -Widentities
+- -Wincomplete-record-updates
+- -Wincomplete-uni-patterns
+- -Wmissing-home-modules
+- -Wpartial-fields
+- -Wredundant-constraints
+- -Wno-name-shadowing
+
+language: GHC2021
+default-extensions:
+- LambdaCase
+- OverloadedStrings
+- OverloadedLabels
+- DataKinds
+- StandaloneKindSignatures
+- TypeFamilies
+- DerivingStrategies
+
+library:
+  source-dirs: src
+
+executables:
+  day00:
+    main:                Main.hs
+    source-dirs:         app/Day00
+    dependencies:
+    - aoc2025
+  day01:
+    main:                Main.hs
+    source-dirs:         app/Day01
+    dependencies:
+    - aoc2025
+
+tests:
+  aoc2025-test:
+    main:                Spec.hs
+    source-dirs:         test
+    dependencies:
+    - aoc2025
