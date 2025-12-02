@@ -14,6 +14,8 @@ dependencies:
 - base >= 4.7 && < 5
 - bifunctors
 - filepath
+- split
+- containers
 
 ghc-options:
 - -Wall
@@ -48,6 +50,11 @@ executables:
   day01:
     main:                Main.hs
     source-dirs:         app/Day01
+    dependencies:
+    - aoc2025
+  day02:
+    main:                Main.hs
+    source-dirs:         app/Day02
     dependencies:
     - aoc2025
 
