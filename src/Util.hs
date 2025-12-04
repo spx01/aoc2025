@@ -7,3 +7,6 @@ newtype TInt a = TInt { getTInt :: Int }
 
 head' :: [a] -> a
 head' = fromJust . listToMaybe
+
+ifM :: (Monad m) => m Bool -> m a -> m a -> m a
+ifM b t e = b >>= \case { True -> t; _ -> e }

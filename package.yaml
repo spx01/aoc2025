@@ -16,6 +16,7 @@ dependencies:
 - filepath
 - split
 - containers
+- mtl
 
 ghc-options:
 - -Wall
@@ -60,6 +61,11 @@ executables:
   day03:
     main:                Main.hs
     source-dirs:         app/Day03
+    dependencies:
+    - aoc2025
+  day04:
+    main:                Main.hs
+    source-dirs:         app/Day04
     dependencies:
     - aoc2025
 
