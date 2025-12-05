@@ -26,7 +26,7 @@ part2 :: String -> String
 part2 = parse >>> evalState solve2 >>> length >>> show
 
 onBoard :: Pos -> BoardS Bool
-onBoard p = gets $ (S.member p) . snd
+onBoard p = gets $ S.member p . snd
 
 rmPos :: Pos -> BoardS ()
 rmPos = modify . second . S.delete
@@ -38,7 +38,7 @@ parse = lines >>> ((length &&& (head' >>> length)) &&& aux)
     aux = id
       >>> fmap (zip [0 :: Int ..] >>> filter (\(_, c) -> c == '@'))
       >>> fmap (fmap fst)
-      >>> zipWith (\x r -> fmap (x,) r) [0 :: Int ..]
+      >>> zipWith (fmap . (,)) [0 :: Int ..]
       >>> concat
       >>> S.fromList
 
@@ -70,7 +70,7 @@ solve2 = gets snd >>= filterM spaced . S.toList >>= \sp0 -> do
     go :: [Pos] -> BoardS [Pos]
     go []     = pure []
     go (r:rs) = do
-      ns <- adj r >>= (filterM $ \x -> do
+      ns <- adj r >>= filterM (\x -> do
         ifM ((&&) <$> onBoard x <*> spaced x)
           (rmPos x $> True)
           (pure False))

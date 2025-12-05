@@ -1,6 +1,4 @@
-{-# LANGUAGE ViewPatterns #-}
-
-module Main where
+module Main (main) where
 
 import qualified AOC
 import Util
@@ -64,15 +62,15 @@ simplifyRange' base ra@(Just (_, r))
 simplifyRange' _ _ = Nothing
 
 firstInvalid' :: Int -> Range -> Maybe Int
-firstInvalid' base = join . fmap aux
+firstInvalid' base = (>>= aux)
   where
-    aux (l, r) = listToMaybe . catMaybes . fmap go $ [l .. r]
+    aux (l, r) = listToMaybe . mapMaybe go $ [l .. r]
     go i = extractRoot' base i $> i
 
 solve2 :: [Range] -> [S.Set Int]
 solve2 = fmap go
   where
-    go r = S.fromList $ concatMap (flip invalids' r) [2 .. 12]
+    go r = S.fromList $ concatMap (`invalids'` r) [2 .. 12]
 
 {-
 >>> solve2 (parse "11-22,95-115,998-1012,1188511880-1188511890,222220-222224,1698522-1698528,446443-446449,38593856-38593862,565653-565659,824824821-824824827,2121212118-2121212124")
