@@ -30,7 +30,7 @@ wrapInteract dayNum f = do
   args <- getArgs
   case args of
     ["-"] -> printTime $ interact f >> putStrLn ""
-    []    -> printTime $ readFile' (inputPath dayNum) >>= putStrLn . f
+    []    -> readFile' (inputPath dayNum) >>= printTime . putStrLn . f
     _     -> fail "invalid arguments"
 
 combineParts :: Interact -> Interact -> Interact

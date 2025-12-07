@@ -1,7 +1,9 @@
-module Util (TInt(..), head', ifM, breakDrop) where
+module Util (TInt(..), head', ifM, breakDrop, uncons', FoldL, FoldR) where
 
 import Data.Maybe
 import Control.Arrow
+import Data.List
+
 newtype TInt a = TInt { getTInt :: Int }
   deriving newtype (Eq, Ord, Enum, Num, Real, Integral)
 
@@ -13,3 +15,9 @@ ifM b t e = b >>= \case { True -> t; _ -> e }
 
 breakDrop :: (a -> Bool) -> [a] -> ([a], [a])
 breakDrop p = break p >>> second (drop 1)
+
+uncons' :: [a] -> (a, [a])
+uncons' = fromJust . uncons
+
+type FoldL acc a = acc -> a -> acc
+type FoldR a acc = a -> acc -> acc
