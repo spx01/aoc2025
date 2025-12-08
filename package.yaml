@@ -18,6 +18,7 @@ dependencies:
 - containers
 - mtl
 - clock
+- linear
 
 ghc-options:
 - -Wall
@@ -88,6 +89,11 @@ executables:
   day07b:
     main:                Main.hs
     source-dirs:         app/Day07b
+    dependencies:
+    - aoc2025
+  day08b:
+    main:                Main.hs
+    source-dirs:         app/Day08b
     dependencies:
     - aoc2025
 
