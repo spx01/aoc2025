@@ -1,5 +1,8 @@
-module Util (TInt(..), head', ifM, breakDrop, uncons', FoldL, FoldR) where
+module Util
+  (TInt(..), head', ifM, breakDrop, uncons', FoldL, FoldR, filterWithIndex)
+where
 
+import qualified Data.Sequence as S
 import Data.Maybe
 import Control.Arrow
 import Data.List
@@ -21,3 +24,6 @@ uncons' = fromJust . uncons
 
 type FoldL acc a = acc -> a -> acc
 type FoldR a acc = a -> acc -> acc
+
+filterWithIndex :: (Int -> a -> Bool) -> S.Seq a -> S.Seq a
+filterWithIndex f = S.mapWithIndex (,) >>> S.filter (uncurry f) >>> fmap snd
