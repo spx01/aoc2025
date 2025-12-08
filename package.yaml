@@ -19,6 +19,7 @@ dependencies:
 - mtl
 - clock
 - linear
+- vector
 
 ghc-options:
 - -Wall
