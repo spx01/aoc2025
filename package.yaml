@@ -102,6 +102,11 @@ executables:
     source-dirs:         app/Day08b
     dependencies:
     - aoc2025
+  day09:
+    main:                Main.hs
+    source-dirs:         app/Day09
+    dependencies:
+    - aoc2025
 
 tests:
   aoc2025-test:
