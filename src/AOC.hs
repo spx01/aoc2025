@@ -1,14 +1,15 @@
-module AOC (wrapInteract, combineParts) where
+module AOC (wrapInteract, combineParts, combineParts') where
 
 import Text.Printf
 import System.FilePath
 import System.Environment
 import System.IO
-import Control.Arrow
 import System.Clock
 import Data.Ratio
+import Control.Monad
 
-type Interact = String -> String
+type Interact  = String -> String
+type Interact' = String -> IO String
 
 inputPath :: Int -> FilePath
 inputPath dayNum = "inputs" </> printf "day%02d.txt" dayNum
@@ -25,16 +26,22 @@ printTime act = do
   printf "time: %.03fms\n" (nsToMs dt)
   pure a
 
-wrapInteract :: Int -> Interact -> IO ()
+wrapInteract :: Int -> Interact' -> IO ()
 wrapInteract dayNum f = do
   args <- getArgs
   case args of
-    ["-"] -> printTime $ interact f >> putStrLn ""
-    []    -> readFile' (inputPath dayNum) >>= printTime . putStrLn . f
+    ["-"] -> printTime $ interact' f >> putStrLn ""
+    []    -> readFile' (inputPath dayNum) >>= (printTime . putStrLn <=< f)
     _     -> fail "invalid arguments"
 
-combineParts :: Interact -> Interact -> Interact
-combineParts f1 f2 s =
-  concat ["part 1:\n\t", o1, "\npart 2:\n\t", o2]
-  where
-    (o1, o2) = f1 &&& f2 $ s
+interact' :: Interact' -> IO ()
+interact' f = getContents' >>= f >>= putStr
+
+combineParts :: Interact -> Interact -> Interact'
+combineParts f1 f2 = combineParts' (pure . f1) (pure . f2)
+
+combineParts' :: Interact' -> Interact' -> Interact'
+combineParts' f1 f2 s = do
+  o1 <- f1 s
+  o2 <- f2 s
+  pure $ concat ["part 1:\n\t", o1, "\npart 2:\n\t", o2]

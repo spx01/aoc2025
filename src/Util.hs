@@ -1,11 +1,14 @@
 module Util
-  (TInt(..), head', ifM, breakDrop, uncons', FoldL, FoldR, filterWithIndex)
+  ( TInt(..), head', ifM, breakDrop, uncons', FoldL, FoldR, filterWithIndex
+  , seqTrans
+  )
 where
 
 import qualified Data.Sequence as S
 import Data.Maybe
 import Control.Arrow
 import Data.List
+import Data.Foldable
 
 newtype TInt a = TInt { getTInt :: Int }
   deriving newtype (Eq, Ord, Enum, Num, Real, Integral)
@@ -27,3 +30,6 @@ type FoldR a acc = a -> acc -> acc
 
 filterWithIndex :: (Int -> a -> Bool) -> S.Seq a -> S.Seq a
 filterWithIndex f = S.mapWithIndex (,) >>> S.filter (uncurry f) >>> fmap snd
+
+seqTrans :: S.Seq (S.Seq a) -> S.Seq (S.Seq a)
+seqTrans = toList >>> fmap toList >>> transpose >>> fmap S.fromList >>> S.fromList

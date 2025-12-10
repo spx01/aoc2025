@@ -20,6 +20,7 @@ dependencies:
 - clock
 - linear
 - vector
+- sbv
 
 ghc-options:
 - -Wall
@@ -105,6 +106,11 @@ executables:
   day09:
     main:                Main.hs
     source-dirs:         app/Day09
+    dependencies:
+    - aoc2025
+  day10:
+    main:                Main.hs
+    source-dirs:         app/Day10
     dependencies:
     - aoc2025
 
