@@ -1,10 +1,11 @@
 module Util
   ( TInt(..), head', ifM, breakDrop, uncons', FoldL, FoldR, filterWithIndex
-  , seqTrans
+  , seqTrans, Endo', rotL, shead'
   )
 where
 
 import qualified Data.Sequence as S
+import Data.Sequence (Seq(..))
 import Data.Maybe
 import Control.Arrow
 import Data.List
@@ -27,9 +28,21 @@ uncons' = fromJust . uncons
 
 type FoldL acc a = acc -> a -> acc
 type FoldR a acc = a -> acc -> acc
+type Endo' a = a -> a
 
-filterWithIndex :: (Int -> a -> Bool) -> S.Seq a -> S.Seq a
+filterWithIndex :: (Int -> a -> Bool) -> Seq a -> Seq a
 filterWithIndex f = S.mapWithIndex (,) >>> S.filter (uncurry f) >>> fmap snd
 
-seqTrans :: S.Seq (S.Seq a) -> S.Seq (S.Seq a)
+seqTrans :: Seq (Seq a) -> Seq (Seq a)
 seqTrans = toList >>> fmap toList >>> transpose >>> fmap S.fromList >>> S.fromList
+
+shead' :: Seq a -> a
+shead' (x :<| _) = x
+shead' _ = undefined
+
+rotL :: Int -> Seq a -> Seq a
+rotL _ Empty = Empty
+rotL n s
+  | n < 0, xs :|> x <- s = rotL (n + 1) (x :<| xs)
+  | n > 0, x :<| xs <- s = rotL (n - 1) (xs :|> x)
+  | otherwise = s

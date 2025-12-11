@@ -21,6 +21,8 @@ dependencies:
 - linear
 - vector
 - sbv
+- lens
+- fgl
 
 ghc-options:
 - -Wall
@@ -108,9 +110,19 @@ executables:
     source-dirs:         app/Day09
     dependencies:
     - aoc2025
+  day09b:
+    main:                Main.hs
+    source-dirs:         app/Day09b
+    dependencies:
+    - aoc2025
   day10:
     main:                Main.hs
     source-dirs:         app/Day10
+    dependencies:
+    - aoc2025
+  day11:
+    main:                Main.hs
+    source-dirs:         app/Day11
     dependencies:
     - aoc2025
 
