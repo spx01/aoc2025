@@ -90,7 +90,7 @@ mkSystem ma b = (vars,) $ do
   forM_ (ma `S.zip` b) $ \(c, t) -> do
     let vars = [xi | (xi, b) <- toList (x `S.zip` c), b]
     constrain $ sum vars .== literal (fromIntegral t)
-    minimize "goal" $ sum x
+  minimize "goal" $ sum x
   where
     mt    = seqTrans ma
     nVars = length mt
