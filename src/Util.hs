@@ -1,6 +1,6 @@
 module Util
   ( TInt(..), head', ifM, breakDrop, uncons', FoldL, FoldR, filterWithIndex
-  , seqTrans, Endo', rotL, shead'
+  , seqTrans, Endo', rotL, shead', fromBitIxs
   )
 where
 
@@ -10,6 +10,7 @@ import Data.Maybe
 import Control.Arrow
 import Data.List
 import Data.Foldable
+import Data.Bits
 
 newtype TInt a = TInt { getTInt :: Int }
   deriving newtype (Eq, Ord, Enum, Num, Real, Integral)
@@ -46,3 +47,7 @@ rotL n s
   | n < 0, xs :|> x <- s = rotL (n + 1) (x :<| xs)
   | n > 0, x :<| xs <- s = rotL (n - 1) (xs :|> x)
   | otherwise = s
+
+fromBitIxs :: (Bits a, Foldable f) => f Int -> a
+fromBitIxs =
+  getIor . foldMap (\i -> if i >= 0 then Ior (bit i) else Ior zeroBits)

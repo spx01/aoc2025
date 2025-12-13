@@ -24,9 +24,6 @@ type Sol1   = [Int]
 fromBits :: [Bool] -> Int
 fromBits bs = sum [ bit i | (b, i) <- zip bs [0 ..], b ]
 
-fromBitIxs :: [Int] -> Int
-fromBitIxs = sum . fmap bit
-
 parseSections :: String -> S.Seq String
 parseSections = S.fromList . words . filter (`notElem` "[](){}")
 

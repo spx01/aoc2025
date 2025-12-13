@@ -23,6 +23,8 @@ dependencies:
 - sbv
 - lens
 - fgl
+- logict
+- megaparsec
 
 ghc-options:
 - -Wall
@@ -123,6 +125,14 @@ executables:
   day11:
     main:                Main.hs
     source-dirs:         app/Day11
+    dependencies:
+    - aoc2025
+  day12:
+    main:                Main.hs
+    source-dirs:         app/Day12
+    ghc-options:
+      - -O2 
+      - -rtsopts
     dependencies:
     - aoc2025
 
